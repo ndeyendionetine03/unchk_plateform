@@ -1,0 +1,220 @@
+@use '@angular/material' as mat;
+
+/* ============================================================
+   UNCHK — Thème Material personnalisé (charte graphique logo)
+   Bleu #006AB4 · Vert #00A346 · Orange #F39200
+   ============================================================ */
+@include mat.core();
+
+$unchk-blue: (
+  50:#e4f0f9, 100:#bdd9ef, 200:#92c0e4, 300:#66a7d9, 400:#4595d0,
+  500:#2483c8, 600:#006ab4, 700:#005ea4, 800:#005190, 900:#003c6f,
+  contrast:(50:#000,100:#000,200:#000,300:#000,400:#fff,500:#fff,600:#fff,700:#fff,800:#fff,900:#fff)
+);
+$unchk-green: (
+  50:#e4f6ec, 100:#bce8cf, 200:#8fd9b0, 300:#5fca90, 400:#33be78,
+  500:#00b261, 600:#00a346, 700:#00913a, 800:#007f2e, 900:#005f18,
+  contrast:(50:#000,100:#000,200:#000,300:#000,400:#fff,500:#fff,600:#fff,700:#fff,800:#fff,900:#fff)
+);
+
+$primary: mat.define-palette($unchk-blue, 600);
+$accent:  mat.define-palette($unchk-green, 600);
+$warn:    mat.define-palette(mat.$red-palette, 600);
+
+$theme: mat.define-light-theme((
+  color: (primary: $primary, accent: $accent, warn: $warn),
+  typography: mat.define-typography-config($font-family: 'Inter, Roboto, "Helvetica Neue", sans-serif'),
+  density: 0
+));
+
+@include mat.all-component-themes($theme);
+
+/* ============================================================
+   Tokens de design
+   ============================================================ */
+:root {
+  --unchk-blue: #006AB4;
+  --unchk-blue-dark: #004E86;
+  --unchk-blue-700: #005EA4;
+  --unchk-blue-light: #E8F1F9;
+  --unchk-green: #00A346;
+  --unchk-green-light: #E6F5EC;
+  --unchk-orange: #F39200;
+  --unchk-orange-light: #FEF1DE;
+
+  --bg: #F4F6FB;
+  --surface: #FFFFFF;
+  --text: #1F2733;
+  --text-muted: #6B7785;
+  --border: #E8ECF3;
+
+  --sidebar-w: 268px;
+  --topbar-h: 66px;
+  --radius: 16px;
+  --radius-sm: 10px;
+
+  --shadow-sm: 0 1px 2px rgba(16,42,67,.05), 0 1px 3px rgba(16,42,67,.06);
+  --shadow-md: 0 6px 20px rgba(16,42,67,.08);
+  --shadow-lg: 0 16px 40px rgba(16,42,67,.14);
+  --tricolor: linear-gradient(90deg, var(--unchk-blue) 0 33.33%, var(--unchk-green) 33.33% 66.66%, var(--unchk-orange) 66.66% 100%);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,h2,h3,h4 { font-family: 'Poppins', 'Inter', sans-serif; }
+
+/* ============================================================
+   Layout générique des pages
+   ============================================================ */
+.page-container {
+  padding: 28px 32px;
+  max-width: 1240px;
+  margin: 0 auto;
+  animation: pageIn .35s cubic-bezier(.21,.61,.35,1);
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    color: var(--text);
+  }
+  .page-subtitle { color: var(--text-muted); font-size: 14px; margin-top: 2px; }
+}
+
+/* ============================================================
+   Cartes
+   ============================================================ */
+.mat-mdc-card, mat-card {
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border);
+}
+
+.stat-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius) !important;
+  transition: transform .2s ease, box-shadow .2s ease;
+  cursor: default;
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px;
+  background: var(--accent, var(--unchk-blue));
+}
+.stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md) !important; }
+
+.surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================================
+   Tableaux
+   ============================================================ */
+.table-card {
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm) !important;
+  border: 1px solid var(--border);
+}
+
+table.mat-mdc-table { width: 100%; background: var(--surface); }
+
+.mat-mdc-header-row {
+  background: #F8FAFC;
+}
+.mat-mdc-header-cell {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.mat-mdc-row {
+  transition: background .15s ease;
+}
+.mat-mdc-row:hover { background: var(--unchk-blue-light); }
+.mat-mdc-cell { color: var(--text); font-size: 14px; }
+
+/* ============================================================
+   Badges / chips de rôle & statut
+   ============================================================ */
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: capitalize;
+}
+.role-admin       { background: var(--unchk-blue-light);   color: var(--unchk-blue-dark); }
+.role-etudiant    { background: var(--unchk-green-light);  color: var(--unchk-green); }
+.role-enseignant  { background: var(--unchk-orange-light); color: #C2730A; }
+.role-insertion   { background: #FCE7EC; color: #C2334D; }
+
+/* ============================================================
+   Boutons
+   ============================================================ */
+.mat-mdc-raised-button.mat-primary {
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-sm) !important;
+  font-weight: 600;
+}
+.mat-mdc-raised-button.mat-primary:hover { box-shadow: var(--shadow-md) !important; }
+.mat-mdc-outlined-button { border-radius: var(--radius-sm) !important; }
+
+/* Barre tricolore signature (rappel du logo tressé) */
+.tricolor-bar {
+  height: 4px;
+  width: 100%;
+  background: var(--tricolor);
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Scrollbar discrète
+   ============================================================ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #C9D3E0; border-radius: 8px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: #A9B6C7; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 768px) {
+  .page-container { padding: 18px 16px; }
+  .page-header h1 { font-size: 22px; }
+  .hide-mobile { display: none !important; }
+}
+
+/* Réduction des animations si demandé */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
